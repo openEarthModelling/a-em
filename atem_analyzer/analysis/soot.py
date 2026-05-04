@@ -1,42 +1,78 @@
+"""Soot aggregate analysis: watershed segmentation and fractal dimension."""
 import cv2
 import numpy as np
 from scipy.stats import linregress
-from .base import AerosolAnalysisEngine
 
-class SootAnalysisEngine(AerosolAnalysisEngine):
+from atem_analyzer.analysis.base import AnalysisEngine
+
+
+class SootAnalysisEngine(AnalysisEngine):
+    """Engine for analyzing soot aggregates in TEM/SEM images.
+
+    Performs watershed segmentation to split aggregates into primary particles,
+    then calculates geometric metrics and fractal dimension (Df).
     """
-    Engine specialized in analyzing soot aggregates using watershed segmentation 
-    and fractal dimension (Df) calculation.
-    """
+
+    name = 'soot'
+
     def __init__(self, dist_thresh_ratio=0.4):
         self.dist_thresh_ratio = dist_thresh_ratio
 
-    def analyze(self, image_roi, mask_roi):
+    @classmethod
+    def supports(cls, particle_type: str) -> bool:
+        return particle_type == 'soot'
+
+    def analyze(self, signal_roi, mask_roi) -> dict:
+        """Complete soot analysis pipeline.
+
+        Args:
+            signal_roi: HyperSpy Signal2D or numpy array of the particle ROI.
+            mask_roi: Binary mask (uint8) of the particle.
+
+        Returns:
+            Dictionary with keys: df, rg, r0, feret_dia, convexity,
+            roundness, num_particles, primary_particles.
         """
-        Complete soot analysis pipeline: 
-        1. Watershed segmentation of primary particles
-        2. Geometric metrics extraction
-        3. Fractal analysis (Df)
-        """
-        # 1. Watershed Segmentation
+        # Extract numpy data for OpenCV operations
+        if isinstance(signal_roi, np.ndarray):
+            img = signal_roi
+        elif hasattr(signal_roi, 'data'):
+            img = np.asarray(signal_roi.data)
+        else:
+            img = np.asarray(signal_roi)
+
+        if img.dtype != np.uint8:
+            # Normalize to uint8 for OpenCV
+            dmin, dmax = img.min(), img.max()
+            if dmax == dmin:
+                img = np.zeros_like(img, dtype=np.uint8)
+            else:
+                img = ((img - dmin) / (dmax - dmin) * 255).astype(np.uint8)
+
+        # 1. Watershed segmentation of primary particles
         markers, dist_transform = self._split_particles(mask_roi)
         particles = self._extract_particle_stats(markers, dist_transform)
-        
-        # 2. Calculate Metrics
+
+        # 2. Calculate all metrics
         metrics = self._calculate_all_metrics(particles, mask_roi)
-        
-        # Add primary particles data for reporter
+        if not metrics:
+            return {}
         metrics['primary_particles'] = particles
         metrics['markers'] = markers
         metrics['dist_transform'] = dist_transform
-        
+
         return metrics
 
     def _split_particles(self, mask):
+        """Watershed segmentation to split aggregate into primary particles."""
         kernel = np.ones((3, 3), np.uint8)
         sure_bg = cv2.dilate(mask, kernel, iterations=3)
         dist_transform = cv2.distanceTransform(mask, cv2.DIST_L2, 5)
-        _, sure_fg = cv2.threshold(dist_transform, self.dist_thresh_ratio * dist_transform.max(), 255, 0)
+        _, sure_fg = cv2.threshold(
+            dist_transform,
+            self.dist_thresh_ratio * dist_transform.max(),
+            255, 0
+        )
         sure_fg = np.uint8(sure_fg)
         unknown = cv2.subtract(sure_bg, sure_fg)
         _, markers = cv2.connectedComponents(sure_fg)
@@ -47,6 +83,7 @@ class SootAnalysisEngine(AerosolAnalysisEngine):
         return markers, dist_transform
 
     def _extract_particle_stats(self, markers, dist_transform):
+        """Extract center and radius for each primary particle."""
         particles = []
         for label in np.unique(markers):
             if label <= 1:
@@ -67,10 +104,11 @@ class SootAnalysisEngine(AerosolAnalysisEngine):
         return particles
 
     def _calculate_all_metrics(self, particles, mask):
+        """Calculate geometric metrics and fractal dimension."""
         if not particles:
             return {}
-        
-        # Geometric center
+
+        # Weighted center of aggregate
         avg_r = np.mean([p['radius'] for p in particles])
         sum_m, sum_x, sum_y = 0, 0, 0
         for p in particles:
@@ -80,11 +118,15 @@ class SootAnalysisEngine(AerosolAnalysisEngine):
             sum_m += m
         center = (sum_x / sum_m, sum_y / sum_m)
 
-        # Df calculation
+        # Distance from center for each particle
         for p in particles:
-            p['ri'] = np.sqrt((p['center'][0] - center[0])**2 + (p['center'][1] - center[1])**2)
+            p['ri'] = np.sqrt(
+                (p['center'][0] - center[0])**2 +
+                (p['center'][1] - center[1])**2
+            )
         particles.sort(key=lambda x: x['ri'])
-        
+
+        # Cumulative Rg and R0
         sum_r3_ri2, sum_r3, sum_r = 0, 0, 0
         rg_list, r0_list = [], []
         for i, p in enumerate(particles):
@@ -95,6 +137,7 @@ class SootAnalysisEngine(AerosolAnalysisEngine):
             rg_list.append(np.sqrt(sum_r3_ri2 / sum_r3))
             r0_list.append(sum_r / (i + 1))
 
+        # Fractal dimension via log-log regression
         log_n = np.log10(np.arange(1, len(particles) + 1))
         log_rg_r0 = np.log10(np.array(rg_list) / np.array(r0_list))
         start_idx = max(5, int(len(particles) * 0.1))

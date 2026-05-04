@@ -8,7 +8,12 @@ from .segmentation import (
 )
 from .core import AerosolObject
 from .reporter import AerosolReporter
-from .analysis import AerosolAnalysisEngine, SootAnalysisEngine
+from .analysis import (
+    AnalysisEngine,
+    AerosolAnalysisEngine,
+    AnalysisEngineRegistry,
+    SootAnalysisEngine,
+)
 from .config import PipelineConfig
 
 __all__ = [
@@ -18,6 +23,8 @@ __all__ = [
     'AerosolObject',
     'AerosolReporter',
     'AerosolAnalysisEngine',
+    'AnalysisEngine',
+    'AnalysisEngineRegistry',
     'SootAnalysisEngine',
     'PipelineConfig',
     'SegmentationBackend',
