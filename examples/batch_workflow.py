@@ -8,7 +8,7 @@ from pathlib import Path
 # Ensure the library can be found
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from atem_analyzer import BatchProcessor, PipelineConfig
+from atem_analyzer import BatchProcessor, PipelineConfig, __version__
 
 
 def main():
@@ -61,7 +61,7 @@ def main():
         output_dir=output_path,
     )
 
-    print(f"[*] ATEM Analyzer v0.2.0")
+    print(f"[*] ATEM Analyzer v{__version__}")
     print(f"[*] Input:  {input_path}")
     print(f"[*] Output: {output_path}")
     print(f"[*] Config: {config.microscope_type} | {config.particle_type} | {config.segmentation_backend}")
