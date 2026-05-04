@@ -5,7 +5,7 @@ import hyperspy.api as hs
 
 from atem_analyzer.io import HyperSpyReader
 
-TEST_DM4 = os.path.join(os.path.dirname(__file__), '..', 'data', 'test_dm4', '40004.dm4')
+TEST_DM4 = os.path.join(os.path.dirname(__file__), '..', 'data', 'test_dm4', '40026.dm4')
 
 
 class TestHyperSpyReader:

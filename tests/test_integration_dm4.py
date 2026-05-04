@@ -16,23 +16,23 @@ TEST_DM4_DIR = os.path.join(
 
 
 @pytest.mark.skipif(
-    not os.path.exists(os.path.join(TEST_DM4_DIR, '40004.dm4')),
+    not os.path.exists(os.path.join(TEST_DM4_DIR, '40026.dm4')),
     reason="DM4 test data not available"
 )
 class TestDM4Integration:
     """End-to-end test on real DM4 files."""
 
     def test_load_dm4_scale(self):
-        path = os.path.join(TEST_DM4_DIR, '40004.dm4')
+        path = os.path.join(TEST_DM4_DIR, '40026.dm4')
         s = HyperSpyReader.load(path)
         scale_nm = HyperSpyReader.get_scale_nm(s)
 
-        # 40004.dm4 is 10000x, scale should be ~1.27 nm/pixel
+        # 40026.dm4 is 10000x, scale should be ~1.27 nm/pixel
         assert 1.0 < scale_nm < 2.0
         assert s.data.shape == (1336, 2004)
 
     def test_full_pipeline_on_dm4(self, tmp_path):
-        path = os.path.join(TEST_DM4_DIR, '40004.dm4')
+        path = os.path.join(TEST_DM4_DIR, '40026.dm4')
         s = HyperSpyReader.load(path)
 
         config = PipelineConfig(
