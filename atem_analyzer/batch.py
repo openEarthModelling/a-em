@@ -1,5 +1,5 @@
 """Batch processing for directories of EM images."""
-import os
+from dataclasses import replace
 from pathlib import Path
 
 import pandas as pd
@@ -59,7 +59,7 @@ class BatchProcessor:
         # Auto-configure if no config provided
         config = self.config or PipelineConfig.from_signal(signal)
         if output_dir:
-            config.output_dir = output_dir
+            config = replace(config, output_dir=output_dir)
 
         executor = PipelineExecutor(config)
         aerosols = executor.run(signal)

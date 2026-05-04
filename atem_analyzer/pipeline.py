@@ -1,5 +1,4 @@
 """Single-image analysis pipeline executor."""
-import os
 import cv2
 import numpy as np
 
@@ -106,13 +105,13 @@ class PipelineExecutor:
             mask_global[y:y + h, x:x + w] = obj.mask_roi
             labeled_mask[mask_global > 0] = i + 1
 
-        self.reporter.save_labeled_mask(base_name, labeled_mask, len(aerosols) + 1)
+        self.reporter.save_labeled_mask(base_name, labeled_mask, len(aerosols))
 
         # Individual results
         pix2nm = 1.0
         try:
             pix2nm = HyperSpyReader.get_scale_nm(original_signal)
-        except Exception:
+        except ValueError:
             pass
 
         summary_data = []

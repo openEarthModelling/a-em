@@ -1,3 +1,4 @@
+import pandas as pd
 import pytest
 import hyperspy.api as hs
 import numpy as np
@@ -49,7 +50,7 @@ class TestBatchProcessor:
         processor = BatchProcessor(config)
         df = processor.process_directory(str(temp_input_dir), pattern='*.tif')
 
-        assert isinstance(df, type(df))
+        assert isinstance(df, pd.DataFrame)
         assert len(df) >= 1
         assert 'file' in df.columns
 
