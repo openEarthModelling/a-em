@@ -1,3 +1,4 @@
+"""ATEM Analyzer - Aerosol Electron Microscopy Image Analysis Platform."""
 from .io import HyperSpyReader
 from .preprocess import AerosolPreprocessor
 from .segmentation import (
@@ -15,19 +16,25 @@ from .analysis import (
     SootAnalysisEngine,
 )
 from .config import PipelineConfig
+from .pipeline import PipelineExecutor
+from .batch import BatchProcessor
+
+__version__ = '0.2.0'
 
 __all__ = [
+    'PipelineConfig',
+    'AerosolObject',
     'HyperSpyReader',
+    'PipelineExecutor',
+    'BatchProcessor',
+    'AerosolReporter',
     'AerosolPreprocessor',
     'AerosolSegmenter',
-    'AerosolObject',
-    'AerosolReporter',
-    'AerosolAnalysisEngine',
-    'AnalysisEngine',
-    'AnalysisEngineRegistry',
-    'SootAnalysisEngine',
-    'PipelineConfig',
     'SegmentationBackend',
     'SegmentationRegistry',
     'TraditionalCVSegmenter',
+    'AnalysisEngine',
+    'AerosolAnalysisEngine',
+    'AnalysisEngineRegistry',
+    'SootAnalysisEngine',
 ]

@@ -98,7 +98,7 @@ class PipelineExecutor:
         """Generate reports for all detected aerosols."""
         # Labeled mask
         full_shape = original_signal.data.shape
-        labeled_mask = np.zeros(full_shape, dtype=np.uint8)
+        labeled_mask = np.zeros(full_shape, dtype=np.uint16)
         for i, obj in enumerate(aerosols):
             x, y, w, h = obj.bbox
             mask_global = np.zeros(full_shape, dtype=np.uint8)
