@@ -48,3 +48,6 @@ data/processed/
 # OS
 .DS_Store
 Thumbs.db
+
+# Test data (large DM4 files)
+data/test_dm4/*.dm4
