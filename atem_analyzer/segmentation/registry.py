@@ -23,6 +23,14 @@ class SegmentationRegistry:
         """
         if not issubclass(backend_class, SegmentationBackend):
             raise TypeError(f"{backend_class} is not a SegmentationBackend subclass")
+        if backend_class.name == 'abstract':
+            raise ValueError(
+                f"{backend_class.__name__} must define a 'name' class attribute"
+            )
+        if backend_class.name in cls._backends and cls._backends[backend_class.name] is not backend_class:
+            raise ValueError(
+                f"Backend '{backend_class.name}' is already registered"
+            )
         cls._backends[backend_class.name] = backend_class
 
     @classmethod

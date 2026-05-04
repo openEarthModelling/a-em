@@ -48,6 +48,33 @@ def test_find_compatible():
         AnalysisEngineRegistry.find_compatible('spherical')
 
 
+def test_register_duplicate_name_raises():
+    AnalysisEngineRegistry.register(DummyEngine)
+
+    class AnotherDummy(AnalysisEngine):
+        name = 'dummy'
+        def analyze(self, signal_roi, mask_roi):
+            return {}
+
+    with pytest.raises(ValueError, match="already registered"):
+        AnalysisEngineRegistry.register(AnotherDummy)
+
+
+def test_register_same_class_again_ok():
+    AnalysisEngineRegistry.register(DummyEngine)
+    AnalysisEngineRegistry.register(DummyEngine)  # Should not raise
+    assert AnalysisEngineRegistry.list_engines() == ['dummy']
+
+
+def test_register_without_name_raises():
+    class NoName(AnalysisEngine):
+        def analyze(self, signal_roi, mask_roi):
+            return {}
+
+    with pytest.raises(ValueError, match="must define a 'name'"):
+        AnalysisEngineRegistry.register(NoName)
+
+
 def test_register_non_engine_raises():
     with pytest.raises(TypeError):
         AnalysisEngineRegistry.register(str)

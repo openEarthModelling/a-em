@@ -49,6 +49,9 @@ class SootAnalysisEngine(AnalysisEngine):
             else:
                 img = ((img - dmin) / (dmax - dmin) * 255).astype(np.uint8)
 
+        # Ensure mask is uint8 for OpenCV
+        mask_roi = np.asarray(mask_roi, dtype=np.uint8)
+
         # 1. Watershed segmentation of primary particles
         markers, dist_transform = self._split_particles(mask_roi)
         particles = self._extract_particle_stats(markers, dist_transform)

@@ -23,6 +23,14 @@ class AnalysisEngineRegistry:
         """
         if not issubclass(engine_class, AnalysisEngine):
             raise TypeError(f"{engine_class} is not an AnalysisEngine subclass")
+        if engine_class.name == 'abstract':
+            raise ValueError(
+                f"{engine_class.__name__} must define a 'name' class attribute"
+            )
+        if engine_class.name in cls._engines and cls._engines[engine_class.name] is not engine_class:
+            raise ValueError(
+                f"Engine '{engine_class.name}' is already registered"
+            )
         cls._engines[engine_class.name] = engine_class
 
     @classmethod

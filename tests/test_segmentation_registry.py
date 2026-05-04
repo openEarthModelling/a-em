@@ -47,6 +47,33 @@ def test_find_compatible():
         SegmentationRegistry.find_compatible('TEM', 'spherical')
 
 
+def test_register_duplicate_name_raises():
+    SegmentationRegistry.register(DummyBackend)
+
+    class AnotherDummy(SegmentationBackend):
+        name = 'dummy'
+        def segment(self, signal, config):
+            return signal.data
+
+    with pytest.raises(ValueError, match="already registered"):
+        SegmentationRegistry.register(AnotherDummy)
+
+
+def test_register_same_class_again_ok():
+    SegmentationRegistry.register(DummyBackend)
+    SegmentationRegistry.register(DummyBackend)  # Should not raise
+    assert SegmentationRegistry.list_backends() == ['dummy']
+
+
+def test_register_without_name_raises():
+    class NoName(SegmentationBackend):
+        def segment(self, signal, config):
+            return signal.data
+
+    with pytest.raises(ValueError, match="must define a 'name'"):
+        SegmentationRegistry.register(NoName)
+
+
 def test_register_non_backend_raises():
     with pytest.raises(TypeError):
         SegmentationRegistry.register(str)
