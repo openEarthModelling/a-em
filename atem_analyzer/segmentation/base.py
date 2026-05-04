@@ -18,7 +18,7 @@ class SegmentationBackend(ABC):
         return True
 
     def extract_objects(self, original_signal, mask: np.ndarray,
-                        config: PipelineConfig) -> list:
+                        config: PipelineConfig) -> list[AerosolObject]:
         import cv2
         contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
         aerosols = []

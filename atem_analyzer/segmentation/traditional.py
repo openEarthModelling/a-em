@@ -4,6 +4,7 @@ import numpy as np
 
 from atem_analyzer.segmentation.base import SegmentationBackend
 from atem_analyzer.io import HyperSpyReader
+from atem_analyzer.config import PipelineConfig
 
 
 class TraditionalCVSegmenter(SegmentationBackend):
@@ -13,7 +14,7 @@ class TraditionalCVSegmenter(SegmentationBackend):
     def supports(cls, microscope_type: str, particle_type: str) -> bool:
         return particle_type == 'soot'
 
-    def segment(self, signal, config) -> np.ndarray:
+    def segment(self, signal, config: PipelineConfig) -> np.ndarray:
         s8 = HyperSpyReader.to_uint8(signal)
         img = s8.data
 

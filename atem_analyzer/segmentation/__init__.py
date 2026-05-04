@@ -2,9 +2,7 @@
 from atem_analyzer.segmentation.base import SegmentationBackend
 from atem_analyzer.segmentation.registry import SegmentationRegistry
 from atem_analyzer.segmentation.traditional import TraditionalCVSegmenter
-
-# Backward compatibility: legacy segmenter from old segmentation.py module
-from atem_analyzer.segmentation_legacy import AerosolSegmenter
+from atem_analyzer.segmentation.legacy import AerosolSegmenter
 
 SegmentationRegistry.register(TraditionalCVSegmenter)
 
