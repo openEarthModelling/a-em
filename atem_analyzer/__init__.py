@@ -1,6 +1,11 @@
 from .io import HyperSpyReader
 from .preprocess import AerosolPreprocessor
-from .segmentation import AerosolSegmenter
+from .segmentation import (
+    SegmentationBackend,
+    SegmentationRegistry,
+    TraditionalCVSegmenter,
+    AerosolSegmenter,
+)
 from .core import AerosolObject
 from .reporter import AerosolReporter
 from .analysis import AerosolAnalysisEngine, SootAnalysisEngine
@@ -15,4 +20,7 @@ __all__ = [
     'AerosolAnalysisEngine',
     'SootAnalysisEngine',
     'PipelineConfig',
+    'SegmentationBackend',
+    'SegmentationRegistry',
+    'TraditionalCVSegmenter',
 ]
