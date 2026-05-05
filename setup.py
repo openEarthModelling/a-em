@@ -12,6 +12,10 @@ setup(
         "scipy",
         "hyperspy>=2.0",
     ],
+    extras_require={
+        'sam': ['segment-anything', 'torch'],
+        'sam-cpu': ['segment-anything', 'torch'],
+    },
     author="ATEM Team",
     description="A Python package for analyzing Aerosol Transmission Electron Microscopy (TEM) images.",
     python_requires=">=3.7",
