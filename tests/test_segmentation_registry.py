@@ -1,6 +1,7 @@
 import pytest
 from atem_analyzer.segmentation.base import SegmentationBackend
 from atem_analyzer.segmentation.registry import SegmentationRegistry
+from atem_analyzer.segmentation.sam_automask import SAMAutoMaskSegmenter
 
 
 class DummyBackend(SegmentationBackend):
@@ -77,3 +78,15 @@ def test_register_without_name_raises():
 def test_register_non_backend_raises():
     with pytest.raises(TypeError):
         SegmentationRegistry.register(str)
+
+
+def test_sam_automask_registered():
+    SegmentationRegistry.register(SAMAutoMaskSegmenter)
+    backend = SegmentationRegistry.get('sam_automask')
+    assert isinstance(backend, SAMAutoMaskSegmenter)
+
+
+def test_sam_automask_supports_all():
+    assert SAMAutoMaskSegmenter.supports('TEM', 'soot') is True
+    assert SAMAutoMaskSegmenter.supports('SEM', 'spherical') is True
+    assert SAMAutoMaskSegmenter.supports('AFM', 'nanorod') is True
