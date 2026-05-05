@@ -1,8 +1,25 @@
 """SAM Auto-Mask segmentation backend with post-filtering."""
+import logging
+import os
+
 import numpy as np
 
 from atem_analyzer.segmentation.base import SegmentationBackend
 from atem_analyzer.config import PipelineConfig
+
+logger = logging.getLogger(__name__)
+
+_CHECKPOINT_URLS = {
+    'vit_h': 'https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth',
+    'vit_l': 'https://dl.fbaipublicfiles.com/segment_anything/sam_vit_l_0b3195.pth',
+    'vit_b': 'https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth',
+}
+
+_DEFAULT_CHECKPOINT_NAMES = {
+    'vit_h': 'sam_vit_h_4b8939.pth',
+    'vit_l': 'sam_vit_l_0b3195.pth',
+    'vit_b': 'sam_vit_b_01ec64.pth',
+}
 
 
 def _is_nested(small_mask, large_mask, threshold=0.8):
@@ -86,14 +103,21 @@ class SAMAutoMaskSegmenter(SegmentationBackend):
 
     @classmethod
     def supports(cls, microscope_type: str, particle_type: str) -> bool:
-        return microscope_type in ('TEM', 'SEM') and particle_type == 'soot'
+        # Decoupled from particle type
+        return True
 
     def _load_model(self, config: PipelineConfig):
         if self._sam is not None:
             return
 
-        import torch
-        from segment_anything import sam_model_registry, SamAutomaticMaskGenerator
+        try:
+            import torch
+            from segment_anything import sam_model_registry, SamAutomaticMaskGenerator
+        except ImportError as e:
+            raise ImportError(
+                "segment-anything is required. "
+                "Install with: pip install atem_analyzer[sam]"
+            ) from e
 
         device = config.sam_device
         if device == 'auto':
@@ -101,10 +125,18 @@ class SAMAutoMaskSegmenter(SegmentationBackend):
 
         checkpoint_path = config.sam_checkpoint_path
         if not checkpoint_path:
-            raise ValueError(
-                "sam_checkpoint_path must be set in PipelineConfig. "
-                "Download from https://github.com/facebookresearch/segment-anything#model-checkpoints"
+            checkpoint_path = _DEFAULT_CHECKPOINT_NAMES.get(
+                config.sam_model_type, 'sam_vit_b_01ec64.pth'
             )
+
+        if not os.path.exists(checkpoint_path):
+            url = _CHECKPOINT_URLS.get(config.sam_model_type, _CHECKPOINT_URLS['vit_b'])
+            raise FileNotFoundError(
+                f"SAM checkpoint not found: {checkpoint_path}. "
+                f"Download from: {url}"
+            )
+
+        logger.info("Loading SAM model %s on %s", config.sam_model_type, device)
 
         sam = sam_model_registry[config.sam_model_type](checkpoint=checkpoint_path)
         sam.to(device=device)
@@ -115,6 +147,7 @@ class SAMAutoMaskSegmenter(SegmentationBackend):
             points_per_side=config.sam_points_per_side,
             pred_iou_thresh=config.sam_pred_iou_thresh,
             stability_score_thresh=config.sam_stability_score_thresh,
+            min_mask_region_area=100,
         )
 
     def segment(self, signal, config: PipelineConfig) -> np.ndarray:
@@ -124,6 +157,7 @@ class SAMAutoMaskSegmenter(SegmentationBackend):
 
         uint8_signal = HyperSpyReader.to_uint8(signal)
         gray = uint8_signal.data
+        h, w = gray.shape[:2]
 
         if gray.ndim == 2:
             rgb = np.stack([gray, gray, gray], axis=-1)
@@ -132,16 +166,23 @@ class SAMAutoMaskSegmenter(SegmentationBackend):
         else:
             rgb = gray
 
+        logger.info("Running SAM AMG on image %s", rgb.shape[:2])
         masks = self._mask_generator.generate(rgb)
+        logger.info("SAM generated %d candidate masks", len(masks))
 
         filtered = post_filter_masks(
             masks,
             original_gray=gray,
-            image_shape=gray.shape[:2],
+            image_shape=(h, w),
             config=config,
         )
 
-        h, w = gray.shape[:2]
+        logger.info("Post-filtering retained %d masks", len(filtered))
+
+        if not filtered:
+            logger.warning("No masks passed post-filtering; returning empty mask")
+            return np.zeros((h, w), dtype=np.uint8)
+
         binary_mask = np.zeros((h, w), dtype=np.uint8)
         for mask in filtered:
             binary_mask[mask['segmentation']] = 255

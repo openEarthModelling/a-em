@@ -25,9 +25,10 @@ def config():
 
 @pytest.fixture
 def fake_signal():
-    """Return a mock signal with 100x100 uint8 data."""
+    """Return a mock signal with 100x100 uint8 data (bright background, one dark pixel)."""
     sig = MagicMock()
-    sig.data = np.random.randint(0, 256, size=(100, 100), dtype=np.uint8)
+    sig.data = np.ones((100, 100), dtype=np.uint8) * 200
+    sig.data[50, 50] = 50  # dark pixel for mask region
     return sig
 
 
@@ -40,12 +41,10 @@ class TestSAMAutoMaskSegmenter:
         assert SAMAutoMaskSegmenter.supports('TEM', 'soot') is True
         assert SAMAutoMaskSegmenter.supports('SEM', 'soot') is True
 
-    def test_does_not_support_other_particles(self):
-        assert SAMAutoMaskSegmenter.supports('TEM', 'spherical') is False
-        assert SAMAutoMaskSegmenter.supports('SEM', 'spherical') is False
-
-    def test_does_not_support_other_microscopes(self):
-        assert SAMAutoMaskSegmenter.supports('AFM', 'soot') is False
+    def test_supports_any_particle_type(self):
+        assert SAMAutoMaskSegmenter.supports('TEM', 'spherical') is True
+        assert SAMAutoMaskSegmenter.supports('SEM', 'nanorod') is True
+        assert SAMAutoMaskSegmenter.supports('AFM', 'soot') is True
 
     def test_lazy_loading(self, config):
         segmenter = SAMAutoMaskSegmenter()
@@ -78,7 +77,8 @@ class TestSAMAutoMaskSegmenter:
 
         with patch.dict(sys.modules, {'segment_anything': fake_module, 'torch': fake_torch}):
             with patch('atem_analyzer.io.HyperSpyReader.to_uint8', return_value=fake_signal):
-                mask = segmenter.segment(fake_signal, config)
+                with patch('os.path.exists', return_value=True):
+                    mask = segmenter.segment(fake_signal, config)
 
         assert mask.dtype == np.uint8
         assert set(np.unique(mask)).issubset({0, 255})
@@ -111,12 +111,13 @@ class TestSAMAutoMaskSegmenter:
 
         with patch.dict(sys.modules, {'segment_anything': fake_module, 'torch': fake_torch}):
             with patch('atem_analyzer.io.HyperSpyReader.to_uint8', return_value=fake_signal):
-                mask = segmenter.segment(fake_signal, config)
+                with patch('os.path.exists', return_value=True):
+                    mask = segmenter.segment(fake_signal, config)
 
         assert mask.dtype == np.uint8
         assert np.all(mask == 0)
 
-    def test_missing_checkpoint_raises_valueerror(self, config, fake_signal):
+    def test_missing_checkpoint_raises_filenotfound(self, config, fake_signal):
         segmenter = SAMAutoMaskSegmenter()
         config.sam_checkpoint_path = ''
 
@@ -125,7 +126,7 @@ class TestSAMAutoMaskSegmenter:
         fake_torch.cuda.is_available.return_value = False
 
         with patch.dict(sys.modules, {'segment_anything': fake_module, 'torch': fake_torch}):
-            with pytest.raises(ValueError, match='sam_checkpoint_path'):
+            with pytest.raises(FileNotFoundError, match='SAM checkpoint not found'):
                 segmenter.segment(fake_signal, config)
 
     def test_missing_segment_anything_raises_importerror(self, config, fake_signal):
