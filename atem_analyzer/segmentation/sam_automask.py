@@ -1,6 +1,9 @@
 """SAM Auto-Mask segmentation backend with post-filtering."""
 import numpy as np
 
+from atem_analyzer.segmentation.base import SegmentationBackend
+from atem_analyzer.config import PipelineConfig
+
 
 def _is_nested(small_mask, large_mask, threshold=0.8):
     """Check if small_mask is mostly contained within large_mask."""
@@ -70,3 +73,77 @@ def post_filter_masks(masks, original_gray, image_shape, config):
         edge_passed.append(mask)
 
     return edge_passed
+
+
+class SAMAutoMaskSegmenter(SegmentationBackend):
+    """SAM Auto-Mask Generator segmentation backend with post-filtering."""
+
+    name: str = 'sam_automask'
+
+    def __init__(self):
+        self._sam = None
+        self._mask_generator = None
+
+    @classmethod
+    def supports(cls, microscope_type: str, particle_type: str) -> bool:
+        return microscope_type in ('TEM', 'SEM') and particle_type == 'soot'
+
+    def _load_model(self, config: PipelineConfig):
+        if self._sam is not None:
+            return
+
+        import torch
+        from segment_anything import sam_model_registry, SamAutomaticMaskGenerator
+
+        device = config.sam_device
+        if device == 'auto':
+            device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
+        checkpoint_path = config.sam_checkpoint_path
+        if not checkpoint_path:
+            raise ValueError(
+                "sam_checkpoint_path must be set in PipelineConfig. "
+                "Download from https://github.com/facebookresearch/segment-anything#model-checkpoints"
+            )
+
+        sam = sam_model_registry[config.sam_model_type](checkpoint=checkpoint_path)
+        sam.to(device=device)
+
+        self._sam = sam
+        self._mask_generator = SamAutomaticMaskGenerator(
+            model=sam,
+            points_per_side=config.sam_points_per_side,
+            pred_iou_thresh=config.sam_pred_iou_thresh,
+            stability_score_thresh=config.sam_stability_score_thresh,
+        )
+
+    def segment(self, signal, config: PipelineConfig) -> np.ndarray:
+        from atem_analyzer.io import HyperSpyReader
+
+        self._load_model(config)
+
+        uint8_signal = HyperSpyReader.to_uint8(signal)
+        gray = uint8_signal.data
+
+        if gray.ndim == 2:
+            rgb = np.stack([gray, gray, gray], axis=-1)
+        elif gray.ndim == 3 and gray.shape[2] == 1:
+            rgb = np.repeat(gray, 3, axis=-1)
+        else:
+            rgb = gray
+
+        masks = self._mask_generator.generate(rgb)
+
+        filtered = post_filter_masks(
+            masks,
+            original_gray=gray,
+            image_shape=gray.shape[:2],
+            config=config,
+        )
+
+        h, w = gray.shape[:2]
+        binary_mask = np.zeros((h, w), dtype=np.uint8)
+        for mask in filtered:
+            binary_mask[mask['segmentation']] = 255
+
+        return binary_mask
