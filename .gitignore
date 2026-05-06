@@ -51,3 +51,6 @@ Thumbs.db
 
 # Test data (large DM4 files)
 data/test_dm4/*.dm4
+# Test artifacts
+test_output/
+test_sam_dm4*.py
