@@ -5,8 +5,8 @@ from pathlib import Path
 import pandas as pd
 
 from a_em.config import PipelineConfig
-from a_em.pipeline import PipelineExecutor
 from a_em.io import HyperSpyReader
+from a_em.pipeline import PipelineExecutor
 
 
 class BatchProcessor:

@@ -92,11 +92,11 @@ class SootAnalysisEngine(AnalysisEngine):
             if label <= 1:
                 continue
             particle_mask = np.uint8(markers == label)
-            M = cv2.moments(particle_mask)
+            M = cv2.moments(particle_mask)  # noqa: N806
             if M["m00"] == 0:
                 continue
-            cX = int(M["m10"] / M["m00"])
-            cY = int(M["m01"] / M["m00"])
+            cX = int(M["m10"] / M["m00"])  # noqa: N806
+            cY = int(M["m01"] / M["m00"])  # noqa: N806
             max_dist = np.max(dist_transform[markers == label])
             particles.append({
                 "id": int(label),

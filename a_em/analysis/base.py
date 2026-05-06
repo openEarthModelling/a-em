@@ -1,6 +1,5 @@
 """Abstract base class for analysis engines."""
 from abc import ABC, abstractmethod
-import numpy as np
 
 
 class AnalysisEngine(ABC):

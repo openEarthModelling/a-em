@@ -4,8 +4,8 @@ import os
 
 import numpy as np
 
-from a_em.segmentation.base import SegmentationBackend
 from a_em.config import PipelineConfig
+from a_em.segmentation.base import SegmentationBackend
 
 logger = logging.getLogger(__name__)
 
@@ -112,7 +112,7 @@ class SAMAutoMaskSegmenter(SegmentationBackend):
 
         try:
             import torch
-            from segment_anything import sam_model_registry, SamAutomaticMaskGenerator
+            from segment_anything import SamAutomaticMaskGenerator, sam_model_registry
         except ImportError as e:
             raise ImportError(
                 "segment-anything is required. "

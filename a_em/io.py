@@ -1,5 +1,6 @@
 """Image I/O using HyperSpy for EM format support and automatic calibration."""
 import os
+
 import hyperspy.api as hs
 import numpy as np
 
@@ -45,13 +46,25 @@ class HyperSpyReader:
         if 'TEM' in inst:
             info['type'] = 'TEM'
             tem = inst.TEM
-            info['beam_energy'] = getattr(tem, 'beam_energy', None) if hasattr(tem, 'beam_energy') else None
-            info['magnification'] = getattr(tem, 'magnification', None) if hasattr(tem, 'magnification') else None
+            info['beam_energy'] = (
+                getattr(tem, 'beam_energy', None)
+                if hasattr(tem, 'beam_energy') else None
+            )
+            info['magnification'] = (
+                getattr(tem, 'magnification', None)
+                if hasattr(tem, 'magnification') else None
+            )
         elif 'SEM' in inst:
             info['type'] = 'SEM'
             sem = inst.SEM
-            info['beam_energy'] = getattr(sem, 'beam_energy', None) if hasattr(sem, 'beam_energy') else None
-            info['magnification'] = getattr(sem, 'magnification', None) if hasattr(sem, 'magnification') else None
+            info['beam_energy'] = (
+                getattr(sem, 'beam_energy', None)
+                if hasattr(sem, 'beam_energy') else None
+            )
+            info['magnification'] = (
+                getattr(sem, 'magnification', None)
+                if hasattr(sem, 'magnification') else None
+            )
         return info
 
     @staticmethod

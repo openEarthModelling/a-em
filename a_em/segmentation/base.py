@@ -1,9 +1,10 @@
 """Abstract base class for segmentation backends."""
 from abc import ABC, abstractmethod
+
 import numpy as np
 
-from a_em.core import AerosolObject
 from a_em.config import PipelineConfig
+from a_em.core import AerosolObject
 
 
 class SegmentationBackend(ABC):

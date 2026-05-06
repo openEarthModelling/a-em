@@ -1,5 +1,5 @@
 import cv2
-import numpy as np
+
 
 class AerosolPreprocessor:
     """
@@ -9,7 +9,7 @@ class AerosolPreprocessor:
     def process(img, filter_type='gaussian', **kwargs):
         """
         Main preprocessing workflow.
-        
+
         Args:
             img: Input image
             filter_type: 'gaussian' or 'bilateral'
@@ -18,10 +18,10 @@ class AerosolPreprocessor:
         clahe_clip = kwargs.get('clahe_clip', 3.0)
         clahe_tile = kwargs.get('clahe_tile', (8, 8))
         morph_kernel = kwargs.get('morph_kernel', 25)
-        
+
         enhanced = AerosolPreprocessor.apply_clahe(img, clahe_clip, clahe_tile)
         blackhat = AerosolPreprocessor.remove_background(enhanced, morph_kernel)
-        
+
         if filter_type == 'bilateral':
             d = kwargs.get('d', 9)
             sc = kwargs.get('sigma_color', 75)
@@ -30,7 +30,7 @@ class AerosolPreprocessor:
         else:
             k = kwargs.get('k', 3)
             denoised = AerosolPreprocessor.denoise(blackhat, k)
-            
+
         return denoised
 
     @staticmethod

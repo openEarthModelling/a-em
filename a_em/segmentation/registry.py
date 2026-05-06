@@ -27,7 +27,8 @@ class SegmentationRegistry:
             raise ValueError(
                 f"{backend_class.__name__} must define a 'name' class attribute"
             )
-        if backend_class.name in cls._backends and cls._backends[backend_class.name] is not backend_class:
+        if (backend_class.name in cls._backends and
+            cls._backends[backend_class.name] is not backend_class):
             raise ValueError(
                 f"Backend '{backend_class.name}' is already registered"
             )

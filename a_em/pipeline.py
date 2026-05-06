@@ -2,11 +2,11 @@
 import cv2
 import numpy as np
 
-from a_em.config import PipelineConfig
-from a_em.segmentation.registry import SegmentationRegistry
 from a_em.analysis.registry import AnalysisEngineRegistry
-from a_em.reporter import AerosolReporter
+from a_em.config import PipelineConfig
 from a_em.io import HyperSpyReader
+from a_em.reporter import AerosolReporter
+from a_em.segmentation.registry import SegmentationRegistry
 
 
 class PipelineExecutor:

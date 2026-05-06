@@ -1,6 +1,5 @@
 """Configuration classes for the ATEM analysis pipeline."""
 from dataclasses import dataclass
-from typing import Tuple
 
 
 @dataclass
@@ -12,7 +11,7 @@ class PipelineConfig:
 
     # Preprocessing
     clahe_clip: float = 3.0
-    clahe_tile: Tuple[int, int] = (8, 8)
+    clahe_tile: tuple[int, int] = (8, 8)
     background_kernel: int = 25
     filter_type: str = 'bilateral'
 

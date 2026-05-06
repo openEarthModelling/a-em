@@ -2,9 +2,9 @@
 import cv2
 import numpy as np
 
-from a_em.segmentation.base import SegmentationBackend
-from a_em.io import HyperSpyReader
 from a_em.config import PipelineConfig
+from a_em.io import HyperSpyReader
+from a_em.segmentation.base import SegmentationBackend
 
 
 class TraditionalCVSegmenter(SegmentationBackend):
@@ -70,7 +70,10 @@ class TraditionalCVSegmenter(SegmentationBackend):
             bgd_model = np.zeros((1, 65), np.float64)
             fgd_model = np.zeros((1, 65), np.float64)
             try:
-                cv2.grabCut(img_color, mask_gc, rect, bgd_model, fgd_model, 3, cv2.GC_INIT_WITH_RECT)
+                cv2.grabCut(
+                    img_color, mask_gc, rect, bgd_model, fgd_model, 3,
+                    cv2.GC_INIT_WITH_RECT
+                )
                 mask2 = np.where((mask_gc == 2) | (mask_gc == 0), 0, 1).astype('uint8')
                 refined_mask = cv2.bitwise_or(refined_mask, mask2 * 255)
             except cv2.error:

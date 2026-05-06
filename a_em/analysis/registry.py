@@ -27,7 +27,8 @@ class AnalysisEngineRegistry:
             raise ValueError(
                 f"{engine_class.__name__} must define a 'name' class attribute"
             )
-        if engine_class.name in cls._engines and cls._engines[engine_class.name] is not engine_class:
+        if (engine_class.name in cls._engines and
+            cls._engines[engine_class.name] is not engine_class):
             raise ValueError(
                 f"Engine '{engine_class.name}' is already registered"
             )
