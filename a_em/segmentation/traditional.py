@@ -2,9 +2,9 @@
 import cv2
 import numpy as np
 
-from atem_analyzer.segmentation.base import SegmentationBackend
-from atem_analyzer.io import HyperSpyReader
-from atem_analyzer.config import PipelineConfig
+from a_em.segmentation.base import SegmentationBackend
+from a_em.io import HyperSpyReader
+from a_em.config import PipelineConfig
 
 
 class TraditionalCVSegmenter(SegmentationBackend):

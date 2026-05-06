@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pandas as pd
 
-from atem_analyzer.config import PipelineConfig
-from atem_analyzer.pipeline import PipelineExecutor
-from atem_analyzer.io import HyperSpyReader
+from a_em.config import PipelineConfig
+from a_em.pipeline import PipelineExecutor
+from a_em.io import HyperSpyReader
 
 
 class BatchProcessor:

@@ -1,5 +1,5 @@
 """Batch processing example for a directory of DM4 files."""
-from atem_analyzer import BatchProcessor, PipelineConfig
+from a_em import BatchProcessor, PipelineConfig
 
 # Configure the pipeline
 config = PipelineConfig(

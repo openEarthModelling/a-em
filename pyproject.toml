@@ -1,0 +1,89 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "a-em"
+dynamic = ["version"]
+description = "A Python package for analyzing Aerosol Transmission Electron Microscopy (TEM) images."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.9"
+authors = [
+    {name = "ATEM Team"},
+]
+keywords = ["tem", "aerosol", "microscopy", "image-analysis", "soot", "segmentation"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Scientific/Engineering :: Chemistry",
+]
+
+dependencies = [
+    "opencv-python>=4.8.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "matplotlib>=3.7.0",
+    "scipy>=1.10.0",
+    "hyperspy>=2.0",
+]
+
+[project.optional-dependencies]
+sam = [
+    "segment-anything @ git+https://github.com/facebookresearch/segment-anything.git",
+    "torch>=2.0.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+]
+all = ["a-em[sam,dev]"]
+
+[project.urls]
+Homepage = "https://github.com/yourusername/a-em"
+Repository = "https://github.com/yourusername/a-em"
+"Bug Tracker" = "https://github.com/yourusername/a-em/issues"
+Changelog = "https://github.com/yourusername/a-em/blob/main/CHANGELOG.md"
+
+[tool.setuptools.dynamic]
+version = {attr = "a_em.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["a_em*"]
+exclude = ["tests*", "examples*"]
+
+[tool.setuptools.package-data]
+a_em = ["py.typed"]
+
+[tool.black]
+line-length = 100
+target-version = ["py39", "py310", "py311", "py312"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP"]
+
+[tool.mypy]
+python_version = "3.9"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v"

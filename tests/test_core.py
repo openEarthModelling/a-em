@@ -1,5 +1,5 @@
 import numpy as np
-from atem_analyzer.core import AerosolObject
+from a_em.core import AerosolObject
 
 
 def test_aerosol_object_legacy():

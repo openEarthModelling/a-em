@@ -1,5 +1,5 @@
 """Registry for segmentation backends."""
-from atem_analyzer.segmentation.base import SegmentationBackend
+from a_em.segmentation.base import SegmentationBackend
 
 
 class SegmentationRegistry:

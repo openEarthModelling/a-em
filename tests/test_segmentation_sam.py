@@ -4,8 +4,8 @@ import pytest
 import sys
 from unittest.mock import MagicMock, patch
 
-from atem_analyzer.config import PipelineConfig
-from atem_analyzer.segmentation.sam_automask import SAMAutoMaskSegmenter
+from a_em.config import PipelineConfig
+from a_em.segmentation.sam_automask import SAMAutoMaskSegmenter
 
 
 @pytest.fixture
@@ -76,7 +76,7 @@ class TestSAMAutoMaskSegmenter:
         fake_torch.cuda.is_available.return_value = False
 
         with patch.dict(sys.modules, {'segment_anything': fake_module, 'torch': fake_torch}):
-            with patch('atem_analyzer.io.HyperSpyReader.to_uint8', return_value=fake_signal):
+            with patch('a_em.io.HyperSpyReader.to_uint8', return_value=fake_signal):
                 with patch('os.path.exists', return_value=True):
                     mask = segmenter.segment(fake_signal, config)
 
@@ -110,7 +110,7 @@ class TestSAMAutoMaskSegmenter:
         fake_torch.cuda.is_available.return_value = False
 
         with patch.dict(sys.modules, {'segment_anything': fake_module, 'torch': fake_torch}):
-            with patch('atem_analyzer.io.HyperSpyReader.to_uint8', return_value=fake_signal):
+            with patch('a_em.io.HyperSpyReader.to_uint8', return_value=fake_signal):
                 with patch('os.path.exists', return_value=True):
                     mask = segmenter.segment(fake_signal, config)
 

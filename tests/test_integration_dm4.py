@@ -3,7 +3,7 @@ import os
 import pytest
 import pandas as pd
 
-from atem_analyzer import (
+from a_em import (
     HyperSpyReader,
     PipelineConfig,
     PipelineExecutor,

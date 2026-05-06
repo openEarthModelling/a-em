@@ -2,8 +2,8 @@ import numpy as np
 import pytest
 import hyperspy.api as hs
 
-from atem_analyzer.segmentation.traditional import TraditionalCVSegmenter
-from atem_analyzer.config import PipelineConfig
+from a_em.segmentation.traditional import TraditionalCVSegmenter
+from a_em.config import PipelineConfig
 
 
 @pytest.fixture

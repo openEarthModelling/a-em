@@ -1,7 +1,7 @@
 import pytest
-from atem_analyzer.segmentation.base import SegmentationBackend
-from atem_analyzer.segmentation.registry import SegmentationRegistry
-from atem_analyzer.segmentation.sam_automask import SAMAutoMaskSegmenter
+from a_em.segmentation.base import SegmentationBackend
+from a_em.segmentation.registry import SegmentationRegistry
+from a_em.segmentation.sam_automask import SAMAutoMaskSegmenter
 
 
 class DummyBackend(SegmentationBackend):

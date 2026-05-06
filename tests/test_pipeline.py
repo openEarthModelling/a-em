@@ -2,12 +2,12 @@ import numpy as np
 import pytest
 import hyperspy.api as hs
 
-from atem_analyzer.pipeline import PipelineExecutor
-from atem_analyzer.config import PipelineConfig
-from atem_analyzer.segmentation.registry import SegmentationRegistry
-from atem_analyzer.segmentation.traditional import TraditionalCVSegmenter
-from atem_analyzer.analysis.registry import AnalysisEngineRegistry
-from atem_analyzer.analysis.soot import SootAnalysisEngine
+from a_em.pipeline import PipelineExecutor
+from a_em.config import PipelineConfig
+from a_em.segmentation.registry import SegmentationRegistry
+from a_em.segmentation.traditional import TraditionalCVSegmenter
+from a_em.analysis.registry import AnalysisEngineRegistry
+from a_em.analysis.soot import SootAnalysisEngine
 
 
 @pytest.fixture(autouse=True)

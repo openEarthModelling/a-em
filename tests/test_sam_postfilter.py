@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from atem_analyzer.segmentation.sam_automask import (
+from a_em.segmentation.sam_automask import (
     post_filter_masks,
     _is_nested,
 )

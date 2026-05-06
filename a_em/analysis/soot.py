@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 from scipy.stats import linregress
 
-from atem_analyzer.analysis.base import AnalysisEngine
+from a_em.analysis.base import AnalysisEngine
 
 
 class SootAnalysisEngine(AnalysisEngine):

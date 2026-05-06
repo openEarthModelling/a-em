@@ -2,8 +2,8 @@
 from abc import ABC, abstractmethod
 import numpy as np
 
-from atem_analyzer.core import AerosolObject
-from atem_analyzer.config import PipelineConfig
+from a_em.core import AerosolObject
+from a_em.config import PipelineConfig
 
 
 class SegmentationBackend(ABC):

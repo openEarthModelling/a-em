@@ -2,14 +2,14 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-from atem_analyzer import (
+from a_em import (
     HyperSpyReader,
     PipelineConfig,
     AerosolReporter,
 )
-from atem_analyzer.pipeline import PipelineExecutor
-from atem_analyzer.segmentation.registry import SegmentationRegistry
-from atem_analyzer.analysis.registry import AnalysisEngineRegistry
+from a_em.pipeline import PipelineExecutor
+from a_em.segmentation.registry import SegmentationRegistry
+from a_em.analysis.registry import AnalysisEngineRegistry
 import cv2
 
 # ---------------------------------------------------------------------------

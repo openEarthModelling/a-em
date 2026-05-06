@@ -1,5 +1,5 @@
 """Registry for analysis engines."""
-from atem_analyzer.analysis.base import AnalysisEngine
+from a_em.analysis.base import AnalysisEngine
 
 
 class AnalysisEngineRegistry:

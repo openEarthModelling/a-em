@@ -19,7 +19,7 @@ from .config import PipelineConfig
 from .pipeline import PipelineExecutor
 from .batch import BatchProcessor
 
-__version__ = '0.2.0'
+__version__ = '0.1.0'
 
 __all__ = [
     'PipelineConfig',

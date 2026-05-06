@@ -1,4 +1,4 @@
-from atem_analyzer.config import PipelineConfig
+from a_em.config import PipelineConfig
 
 
 def test_default_config():

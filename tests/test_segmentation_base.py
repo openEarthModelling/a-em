@@ -1,5 +1,5 @@
 import pytest
-from atem_analyzer.segmentation.base import SegmentationBackend
+from a_em.segmentation.base import SegmentationBackend
 
 
 def test_segmentation_backend_is_abstract():

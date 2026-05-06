@@ -1,4 +1,4 @@
-from atem_analyzer.segmentation import (
+from a_em.segmentation import (
     SegmentationRegistry,
     TraditionalCVSegmenter,
 )

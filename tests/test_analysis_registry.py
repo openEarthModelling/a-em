@@ -1,6 +1,6 @@
 import pytest
-from atem_analyzer.analysis.base import AnalysisEngine
-from atem_analyzer.analysis.registry import AnalysisEngineRegistry
+from a_em.analysis.base import AnalysisEngine
+from a_em.analysis.registry import AnalysisEngineRegistry
 
 
 class DummyEngine(AnalysisEngine):

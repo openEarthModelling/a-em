@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from atem_analyzer.analysis.soot import SootAnalysisEngine
+from a_em.analysis.soot import SootAnalysisEngine
 
 
 @pytest.fixture

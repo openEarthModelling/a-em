@@ -4,8 +4,8 @@ import os
 
 import numpy as np
 
-from atem_analyzer.segmentation.base import SegmentationBackend
-from atem_analyzer.config import PipelineConfig
+from a_em.segmentation.base import SegmentationBackend
+from a_em.config import PipelineConfig
 
 logger = logging.getLogger(__name__)
 
@@ -116,7 +116,7 @@ class SAMAutoMaskSegmenter(SegmentationBackend):
         except ImportError as e:
             raise ImportError(
                 "segment-anything is required. "
-                "Install with: pip install atem_analyzer[sam]"
+                "Install with: pip install a_em[sam]"
             ) from e
 
         device = config.sam_device
@@ -151,7 +151,7 @@ class SAMAutoMaskSegmenter(SegmentationBackend):
         )
 
     def segment(self, signal, config: PipelineConfig) -> np.ndarray:
-        from atem_analyzer.io import HyperSpyReader
+        from a_em.io import HyperSpyReader
 
         self._load_model(config)
 

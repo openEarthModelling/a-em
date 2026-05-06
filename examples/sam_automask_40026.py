@@ -9,16 +9,16 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-sys.path.insert(0, '/home/zhangfan/Project/20260319_SPEMBSSBDART/atem_analyzer')
+sys.path.insert(0, '/home/zhangfan/Project/20260319_SPEMBSSBDART/a_em')
 
-from atem_analyzer.io import HyperSpyReader
-from atem_analyzer.config import PipelineConfig
-from atem_analyzer.segmentation.sam_automask import SAMAutoMaskSegmenter
+from a_em.io import HyperSpyReader
+from a_em.config import PipelineConfig
+from a_em.segmentation.sam_automask import SAMAutoMaskSegmenter
 
 # ── Paths ───────────────────────────────────────────────────────
-DM4_PATH = '/home/zhangfan/Project/20260319_SPEMBSSBDART/atem_analyzer/data/test_dm4/40026.dm4'
+DM4_PATH = '/home/zhangfan/Project/20260319_SPEMBSSBDART/a_em/data/test_dm4/40026.dm4'
 CHECKPOINT = '/data/zhangfan_data/sam_vit_b_01ec64.pth'
-OUTPUT_DIR = '/home/zhangfan/Project/20260319_SPEMBSSBDART/atem_analyzer/data/processed'
+OUTPUT_DIR = '/home/zhangfan/Project/20260319_SPEMBSSBDART/a_em/data/processed'
 
 import os
 os.makedirs(OUTPUT_DIR, exist_ok=True)
