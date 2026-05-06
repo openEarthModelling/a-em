@@ -1,0 +1,478 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Configuration &mdash; A-EM Documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API Reference" href="api.html" />
+    <link rel="prev" title="Quick Start" href="quickstart.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            A-EM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#basic-installation">Basic Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#optional-sam-segmentation-support">Optional: SAM Segmentation Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#single-image-analysis">Single Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#batch-processing">Batch Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="quickstart.html#accessing-results">Accessing Results</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pipelineconfig">PipelineConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#configuration-parameters">Configuration Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#segmentation-backends">Segmentation Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#analysis-engines">Analysis Engines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-a_em">Core Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.PipelineConfig"><code class="docutils literal notranslate"><span class="pre">PipelineConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.microscope_type"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.microscope_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.particle_type"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.particle_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.clahe_clip"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.clahe_clip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.clahe_tile"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.clahe_tile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.background_kernel"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.background_kernel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.filter_type"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.filter_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.segmentation_backend"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.segmentation_backend</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.threshold_method"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.threshold_method</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.min_area"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.min_area</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.use_grabcut_refinement"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.use_grabcut_refinement</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.sam_model_type"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_model_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.sam_checkpoint_path"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_checkpoint_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.sam_device"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_device</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.sam_points_per_side"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_points_per_side</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.sam_pred_iou_thresh"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_pred_iou_thresh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.sam_stability_score_thresh"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_stability_score_thresh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.sam_min_area_ratio"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_min_area_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.sam_max_area_ratio"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_max_area_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.sam_intensity_ratio"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_intensity_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.sam_edge_margin"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_edge_margin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.analysis_engine"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.analysis_engine</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.dist_thresh_ratio"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.dist_thresh_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.output_dir"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.output_dir</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.from_signal"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.from_signal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineConfig.__init__"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.AerosolObject"><code class="docutils literal notranslate"><span class="pre">AerosolObject</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolObject.__init__"><code class="docutils literal notranslate"><span class="pre">AerosolObject.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolObject.add_metric"><code class="docutils literal notranslate"><span class="pre">AerosolObject.add_metric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolObject.get_physical_scale_nm"><code class="docutils literal notranslate"><span class="pre">AerosolObject.get_physical_scale_nm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.HyperSpyReader"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.HyperSpyReader.load"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.HyperSpyReader.get_scale_nm"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.get_scale_nm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.HyperSpyReader.get_microscope_info"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.get_microscope_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.HyperSpyReader.to_uint8"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.to_uint8()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.PipelineExecutor"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineExecutor.__init__"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.PipelineExecutor.run"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.BatchProcessor"><code class="docutils literal notranslate"><span class="pre">BatchProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.BatchProcessor.__init__"><code class="docutils literal notranslate"><span class="pre">BatchProcessor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.BatchProcessor.process_directory"><code class="docutils literal notranslate"><span class="pre">BatchProcessor.process_directory()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.AerosolReporter"><code class="docutils literal notranslate"><span class="pre">AerosolReporter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolReporter.__init__"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolReporter.save_labeled_mask"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.save_labeled_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolReporter.save_aerosol_results"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.save_aerosol_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolReporter.export_summary"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.export_summary()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.AerosolPreprocessor"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolPreprocessor.process"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.process()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolPreprocessor.apply_clahe"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.apply_clahe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolPreprocessor.remove_background"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.remove_background()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolPreprocessor.denoise"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.denoise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolPreprocessor.apply_bilateral_filter"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.apply_bilateral_filter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.AerosolSegmenter"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolSegmenter.extract_mask"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.extract_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolSegmenter.refine_mask"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.refine_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AerosolSegmenter.extract_all_objects"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.extract_all_objects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.SegmentationBackend"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SegmentationBackend.name"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SegmentationBackend.segment"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.segment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SegmentationBackend.supports"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SegmentationBackend.extract_objects"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.extract_objects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.SegmentationRegistry"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SegmentationRegistry.register"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SegmentationRegistry.get"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SegmentationRegistry.find_compatible"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.find_compatible()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SegmentationRegistry.list_backends"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.list_backends()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SegmentationRegistry.clear"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.clear()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.TraditionalCVSegmenter"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.TraditionalCVSegmenter.name"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.TraditionalCVSegmenter.supports"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.TraditionalCVSegmenter.segment"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.segment()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.AnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.analyze()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.supports()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.AerosolAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AerosolAnalysisEngine</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.AnalysisEngineRegistry"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AnalysisEngineRegistry.register"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AnalysisEngineRegistry.get"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AnalysisEngineRegistry.find_compatible"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.find_compatible()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AnalysisEngineRegistry.list_engines"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.list_engines()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.AnalysisEngineRegistry.clear"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.clear()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.SootAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SootAnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SootAnalysisEngine.__init__"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SootAnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.SootAnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.analyze()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-a_em.io">I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.io.HyperSpyReader"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.io.HyperSpyReader.load"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.io.HyperSpyReader.get_scale_nm"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.get_scale_nm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.io.HyperSpyReader.get_microscope_info"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.get_microscope_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.io.HyperSpyReader.to_uint8"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.to_uint8()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-a_em.preprocess">Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.preprocess.AerosolPreprocessor"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.preprocess.AerosolPreprocessor.process"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.process()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.preprocess.AerosolPreprocessor.apply_clahe"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.apply_clahe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.preprocess.AerosolPreprocessor.remove_background"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.remove_background()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.preprocess.AerosolPreprocessor.denoise"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.denoise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.preprocess.AerosolPreprocessor.apply_bilateral_filter"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.apply_bilateral_filter()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-a_em.pipeline">Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.pipeline.PipelineExecutor"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.pipeline.PipelineExecutor.__init__"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.pipeline.PipelineExecutor.run"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-a_em.batch">Batch Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.batch.BatchProcessor"><code class="docutils literal notranslate"><span class="pre">BatchProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.batch.BatchProcessor.__init__"><code class="docutils literal notranslate"><span class="pre">BatchProcessor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.batch.BatchProcessor.process_directory"><code class="docutils literal notranslate"><span class="pre">BatchProcessor.process_directory()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-a_em.reporter">Reporting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.reporter.AerosolReporter"><code class="docutils literal notranslate"><span class="pre">AerosolReporter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.reporter.AerosolReporter.__init__"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.reporter.AerosolReporter.save_labeled_mask"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.save_labeled_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.reporter.AerosolReporter.save_aerosol_results"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.save_aerosol_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.reporter.AerosolReporter.export_summary"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.export_summary()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-a_em.segmentation">Segmentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.segmentation.SegmentationBackend"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SegmentationBackend.name"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SegmentationBackend.segment"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.segment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SegmentationBackend.supports"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SegmentationBackend.extract_objects"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.extract_objects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.segmentation.SegmentationRegistry"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SegmentationRegistry.register"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SegmentationRegistry.get"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SegmentationRegistry.find_compatible"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.find_compatible()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SegmentationRegistry.list_backends"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.list_backends()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SegmentationRegistry.clear"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.clear()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.segmentation.TraditionalCVSegmenter"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.TraditionalCVSegmenter.name"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.TraditionalCVSegmenter.supports"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.TraditionalCVSegmenter.segment"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.segment()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.segmentation.AerosolSegmenter"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.AerosolSegmenter.extract_mask"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.extract_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.AerosolSegmenter.refine_mask"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.refine_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.AerosolSegmenter.extract_all_objects"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.extract_all_objects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.segmentation.SAMAutoMaskSegmenter"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SAMAutoMaskSegmenter.name"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SAMAutoMaskSegmenter.__init__"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SAMAutoMaskSegmenter.supports"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.SAMAutoMaskSegmenter.segment"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.segment()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.segmentation.base.SegmentationBackend"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.base.SegmentationBackend.name"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.base.SegmentationBackend.segment"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.segment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.base.SegmentationBackend.supports"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.base.SegmentationBackend.extract_objects"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.extract_objects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.segmentation.traditional.TraditionalCVSegmenter"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.traditional.TraditionalCVSegmenter.name"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.traditional.TraditionalCVSegmenter.supports"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.traditional.TraditionalCVSegmenter.segment"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.segment()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.segmentation.sam_automask.post_filter_masks"><code class="docutils literal notranslate"><span class="pre">post_filter_masks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.segmentation.sam_automask.SAMAutoMaskSegmenter"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.sam_automask.SAMAutoMaskSegmenter.name"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.sam_automask.SAMAutoMaskSegmenter.__init__"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.sam_automask.SAMAutoMaskSegmenter.supports"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.segmentation.sam_automask.SAMAutoMaskSegmenter.segment"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.segment()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="api.html#module-a_em.analysis">Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.analysis.AnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.AnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.AnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.analyze()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.AnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.supports()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.analysis.AerosolAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AerosolAnalysisEngine</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.analysis.AnalysisEngineRegistry"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.AnalysisEngineRegistry.register"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.AnalysisEngineRegistry.get"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.AnalysisEngineRegistry.find_compatible"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.find_compatible()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.AnalysisEngineRegistry.list_engines"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.list_engines()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.AnalysisEngineRegistry.clear"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.clear()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.analysis.SootAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.SootAnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.SootAnalysisEngine.__init__"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.SootAnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.SootAnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.analyze()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.analysis.base.AnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.base.AnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.base.AnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.analyze()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.base.AnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.supports()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.analysis.base.AerosolAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AerosolAnalysisEngine</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="api.html#a_em.analysis.soot.SootAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.soot.SootAnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.soot.SootAnalysisEngine.__init__"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.soot.SootAnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="api.html#a_em.analysis.soot.SootAnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.analyze()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">A-EM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Configuration</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/configuration.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading"></a></h1>
+<section id="pipelineconfig">
+<h2>PipelineConfig<a class="headerlink" href="#pipelineconfig" title="Link to this heading"></a></h2>
+<p>The <a class="reference internal" href="api.html#a_em.PipelineConfig" title="a_em.PipelineConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">a_em.PipelineConfig</span></code></a> dataclass controls all aspects of the analysis pipeline.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">a_em</span><span class="w"> </span><span class="kn">import</span> <span class="n">PipelineConfig</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">PipelineConfig</span><span class="p">(</span>
+    <span class="n">segmentation_backend</span><span class="o">=</span><span class="s2">&quot;traditional&quot;</span><span class="p">,</span>
+    <span class="n">analysis_engine</span><span class="o">=</span><span class="s2">&quot;soot&quot;</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="o">=</span><span class="s2">&quot;data/processed&quot;</span><span class="p">,</span>
+    <span class="n">clahe_clip</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
+    <span class="n">clahe_tile</span><span class="o">=</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">),</span>
+    <span class="n">background_kernel</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>
+    <span class="n">filter_type</span><span class="o">=</span><span class="s2">&quot;bilateral&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="configuration-parameters">
+<h2>Configuration Parameters<a class="headerlink" href="#configuration-parameters" title="Link to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">segmentation_backend</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;traditional&quot;</span></code></p></td>
+<td><p>Segmentation method: <code class="docutils literal notranslate"><span class="pre">&quot;traditional&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;sam_automask&quot;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">analysis_engine</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;soot&quot;</span></code></p></td>
+<td><p>Analysis engine to use</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">output_dir</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;data/processed&quot;</span></code></p></td>
+<td><p>Directory for output files</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">clahe_clip</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">3.0</span></code></p></td>
+<td><p>CLAHE contrast limit</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">clahe_tile</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">(16,</span> <span class="pre">16)</span></code></p></td>
+<td><p>CLAHE grid tile size</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">background_kernel</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">25</span></code></p></td>
+<td><p>Morphological kernel size for background removal</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">filter_type</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;bilateral&quot;</span></code></p></td>
+<td><p>Denoising filter: <code class="docutils literal notranslate"><span class="pre">&quot;bilateral&quot;</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;gaussian&quot;</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="segmentation-backends">
+<h2>Segmentation Backends<a class="headerlink" href="#segmentation-backends" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><strong>Traditional CV</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;traditional&quot;</span></code>)</dt><dd><p>Uses GrabCut and adaptive thresholding. Fast and does not require additional model downloads.</p>
+</dd>
+<dt><strong>SAM Auto-Mask</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;sam_automask&quot;</span></code>)</dt><dd><p>Uses Meta’s Segment Anything Model. Requires <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">a-em[sam]</span></code> and a SAM checkpoint file. More robust for complex particle morphologies but slower.</p>
+</dd>
+</dl>
+</section>
+<section id="analysis-engines">
+<h2>Analysis Engines<a class="headerlink" href="#analysis-engines" title="Link to this heading"></a></h2>
+<dl class="simple">
+<dt><strong>Soot</strong> (<code class="docutils literal notranslate"><span class="pre">&quot;soot&quot;</span></code>)</dt><dd><p>Specialized engine for soot aggregate characterization, computing:</p>
+<ul class="simple">
+<li><p>Fractal dimension (<code class="docutils literal notranslate"><span class="pre">Df</span></code>)</p></li>
+<li><p>Primary particle diameter</p></li>
+<li><p>Radius of gyration</p></li>
+<li><p>Aggregate morphological metrics</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="quickstart.html" class="btn btn-neutral float-left" title="Quick Start" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api.html" class="btn btn-neutral float-right" title="API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, A-EM Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

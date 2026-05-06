@@ -1,0 +1,570 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>a_em.analysis.soot &mdash; A-EM Documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            A-EM
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#basic-installation">Basic Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#optional-sam-segmentation-support">Optional: SAM Segmentation Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../installation.html#development-installation">Development Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quickstart.html">Quick Start</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#single-image-analysis">Single Image Analysis</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#batch-processing">Batch Processing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../quickstart.html#accessing-results">Accessing Results</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../configuration.html">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../configuration.html#pipelineconfig">PipelineConfig</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../configuration.html#configuration-parameters">Configuration Parameters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../configuration.html#segmentation-backends">Segmentation Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../configuration.html#analysis-engines">Analysis Engines</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-a_em">Core Modules</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig"><code class="docutils literal notranslate"><span class="pre">PipelineConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.microscope_type"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.microscope_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.particle_type"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.particle_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.clahe_clip"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.clahe_clip</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.clahe_tile"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.clahe_tile</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.background_kernel"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.background_kernel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.filter_type"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.filter_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.segmentation_backend"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.segmentation_backend</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.threshold_method"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.threshold_method</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.min_area"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.min_area</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.use_grabcut_refinement"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.use_grabcut_refinement</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.sam_model_type"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_model_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.sam_checkpoint_path"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_checkpoint_path</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.sam_device"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_device</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.sam_points_per_side"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_points_per_side</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.sam_pred_iou_thresh"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_pred_iou_thresh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.sam_stability_score_thresh"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_stability_score_thresh</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.sam_min_area_ratio"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_min_area_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.sam_max_area_ratio"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_max_area_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.sam_intensity_ratio"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_intensity_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.sam_edge_margin"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.sam_edge_margin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.analysis_engine"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.analysis_engine</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.dist_thresh_ratio"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.dist_thresh_ratio</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.output_dir"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.output_dir</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.from_signal"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.from_signal()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineConfig.__init__"><code class="docutils literal notranslate"><span class="pre">PipelineConfig.__init__()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.AerosolObject"><code class="docutils literal notranslate"><span class="pre">AerosolObject</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolObject.__init__"><code class="docutils literal notranslate"><span class="pre">AerosolObject.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolObject.add_metric"><code class="docutils literal notranslate"><span class="pre">AerosolObject.add_metric()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolObject.get_physical_scale_nm"><code class="docutils literal notranslate"><span class="pre">AerosolObject.get_physical_scale_nm()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.HyperSpyReader"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.HyperSpyReader.load"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.HyperSpyReader.get_scale_nm"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.get_scale_nm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.HyperSpyReader.get_microscope_info"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.get_microscope_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.HyperSpyReader.to_uint8"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.to_uint8()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.PipelineExecutor"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineExecutor.__init__"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.PipelineExecutor.run"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor.run()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.BatchProcessor"><code class="docutils literal notranslate"><span class="pre">BatchProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.BatchProcessor.__init__"><code class="docutils literal notranslate"><span class="pre">BatchProcessor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.BatchProcessor.process_directory"><code class="docutils literal notranslate"><span class="pre">BatchProcessor.process_directory()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.AerosolReporter"><code class="docutils literal notranslate"><span class="pre">AerosolReporter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolReporter.__init__"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolReporter.save_labeled_mask"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.save_labeled_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolReporter.save_aerosol_results"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.save_aerosol_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolReporter.export_summary"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.export_summary()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.AerosolPreprocessor"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolPreprocessor.process"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.process()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolPreprocessor.apply_clahe"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.apply_clahe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolPreprocessor.remove_background"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.remove_background()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolPreprocessor.denoise"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.denoise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolPreprocessor.apply_bilateral_filter"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.apply_bilateral_filter()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.AerosolSegmenter"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolSegmenter.extract_mask"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.extract_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolSegmenter.refine_mask"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.refine_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AerosolSegmenter.extract_all_objects"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.extract_all_objects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.SegmentationBackend"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SegmentationBackend.name"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SegmentationBackend.segment"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.segment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SegmentationBackend.supports"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SegmentationBackend.extract_objects"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.extract_objects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.SegmentationRegistry"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SegmentationRegistry.register"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SegmentationRegistry.get"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SegmentationRegistry.find_compatible"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.find_compatible()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SegmentationRegistry.list_backends"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.list_backends()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SegmentationRegistry.clear"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.clear()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.TraditionalCVSegmenter"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.TraditionalCVSegmenter.name"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.TraditionalCVSegmenter.supports"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.TraditionalCVSegmenter.segment"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.segment()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.AnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.analyze()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.supports()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.AerosolAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AerosolAnalysisEngine</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.AnalysisEngineRegistry"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AnalysisEngineRegistry.register"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AnalysisEngineRegistry.get"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AnalysisEngineRegistry.find_compatible"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.find_compatible()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AnalysisEngineRegistry.list_engines"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.list_engines()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.AnalysisEngineRegistry.clear"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.clear()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.SootAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SootAnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SootAnalysisEngine.__init__"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SootAnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.SootAnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.analyze()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-a_em.io">I/O</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.io.HyperSpyReader"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.io.HyperSpyReader.load"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.io.HyperSpyReader.get_scale_nm"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.get_scale_nm()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.io.HyperSpyReader.get_microscope_info"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.get_microscope_info()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.io.HyperSpyReader.to_uint8"><code class="docutils literal notranslate"><span class="pre">HyperSpyReader.to_uint8()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-a_em.preprocess">Preprocessing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.preprocess.AerosolPreprocessor"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.preprocess.AerosolPreprocessor.process"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.process()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.preprocess.AerosolPreprocessor.apply_clahe"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.apply_clahe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.preprocess.AerosolPreprocessor.remove_background"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.remove_background()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.preprocess.AerosolPreprocessor.denoise"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.denoise()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.preprocess.AerosolPreprocessor.apply_bilateral_filter"><code class="docutils literal notranslate"><span class="pre">AerosolPreprocessor.apply_bilateral_filter()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-a_em.pipeline">Pipeline</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.pipeline.PipelineExecutor"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.pipeline.PipelineExecutor.__init__"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.pipeline.PipelineExecutor.run"><code class="docutils literal notranslate"><span class="pre">PipelineExecutor.run()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-a_em.batch">Batch Processing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.batch.BatchProcessor"><code class="docutils literal notranslate"><span class="pre">BatchProcessor</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.batch.BatchProcessor.__init__"><code class="docutils literal notranslate"><span class="pre">BatchProcessor.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.batch.BatchProcessor.process_directory"><code class="docutils literal notranslate"><span class="pre">BatchProcessor.process_directory()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-a_em.reporter">Reporting</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.reporter.AerosolReporter"><code class="docutils literal notranslate"><span class="pre">AerosolReporter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.reporter.AerosolReporter.__init__"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.reporter.AerosolReporter.save_labeled_mask"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.save_labeled_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.reporter.AerosolReporter.save_aerosol_results"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.save_aerosol_results()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.reporter.AerosolReporter.export_summary"><code class="docutils literal notranslate"><span class="pre">AerosolReporter.export_summary()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-a_em.segmentation">Segmentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.segmentation.SegmentationBackend"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SegmentationBackend.name"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SegmentationBackend.segment"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.segment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SegmentationBackend.supports"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SegmentationBackend.extract_objects"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.extract_objects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.segmentation.SegmentationRegistry"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SegmentationRegistry.register"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SegmentationRegistry.get"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SegmentationRegistry.find_compatible"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.find_compatible()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SegmentationRegistry.list_backends"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.list_backends()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SegmentationRegistry.clear"><code class="docutils literal notranslate"><span class="pre">SegmentationRegistry.clear()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.segmentation.TraditionalCVSegmenter"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.TraditionalCVSegmenter.name"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.TraditionalCVSegmenter.supports"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.TraditionalCVSegmenter.segment"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.segment()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.segmentation.AerosolSegmenter"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.AerosolSegmenter.extract_mask"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.extract_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.AerosolSegmenter.refine_mask"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.refine_mask()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.AerosolSegmenter.extract_all_objects"><code class="docutils literal notranslate"><span class="pre">AerosolSegmenter.extract_all_objects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.segmentation.SAMAutoMaskSegmenter"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SAMAutoMaskSegmenter.name"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SAMAutoMaskSegmenter.__init__"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SAMAutoMaskSegmenter.supports"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.SAMAutoMaskSegmenter.segment"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.segment()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.segmentation.base.SegmentationBackend"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.base.SegmentationBackend.name"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.base.SegmentationBackend.segment"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.segment()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.base.SegmentationBackend.supports"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.base.SegmentationBackend.extract_objects"><code class="docutils literal notranslate"><span class="pre">SegmentationBackend.extract_objects()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.segmentation.traditional.TraditionalCVSegmenter"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.traditional.TraditionalCVSegmenter.name"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.traditional.TraditionalCVSegmenter.supports"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.traditional.TraditionalCVSegmenter.segment"><code class="docutils literal notranslate"><span class="pre">TraditionalCVSegmenter.segment()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.segmentation.sam_automask.post_filter_masks"><code class="docutils literal notranslate"><span class="pre">post_filter_masks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.segmentation.sam_automask.SAMAutoMaskSegmenter"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.sam_automask.SAMAutoMaskSegmenter.name"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.sam_automask.SAMAutoMaskSegmenter.__init__"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.sam_automask.SAMAutoMaskSegmenter.supports"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.segmentation.sam_automask.SAMAutoMaskSegmenter.segment"><code class="docutils literal notranslate"><span class="pre">SAMAutoMaskSegmenter.segment()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api.html#module-a_em.analysis">Analysis</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.analysis.AnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.AnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.AnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.analyze()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.AnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.supports()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.analysis.AerosolAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AerosolAnalysisEngine</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.analysis.AnalysisEngineRegistry"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.AnalysisEngineRegistry.register"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.register()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.AnalysisEngineRegistry.get"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.AnalysisEngineRegistry.find_compatible"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.find_compatible()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.AnalysisEngineRegistry.list_engines"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.list_engines()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.AnalysisEngineRegistry.clear"><code class="docutils literal notranslate"><span class="pre">AnalysisEngineRegistry.clear()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.analysis.SootAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.SootAnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.SootAnalysisEngine.__init__"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.SootAnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.SootAnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.analyze()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.analysis.base.AnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.base.AnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.base.AnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.analyze()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.base.AnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">AnalysisEngine.supports()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.analysis.base.AerosolAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">AerosolAnalysisEngine</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../api.html#a_em.analysis.soot.SootAnalysisEngine"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.soot.SootAnalysisEngine.name"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.soot.SootAnalysisEngine.__init__"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.__init__()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.soot.SootAnalysisEngine.supports"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.supports()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../../api.html#a_em.analysis.soot.SootAnalysisEngine.analyze"><code class="docutils literal notranslate"><span class="pre">SootAnalysisEngine.analyze()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">A-EM</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">a_em.analysis.soot</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for a_em.analysis.soot</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Soot aggregate analysis: watershed segmentation and fractal dimension.&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cv2</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.stats</span><span class="w"> </span><span class="kn">import</span> <span class="n">linregress</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">a_em.analysis.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalysisEngine</span>
+
+
+<div class="viewcode-block" id="SootAnalysisEngine">
+<a class="viewcode-back" href="../../../api.html#a_em.SootAnalysisEngine">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SootAnalysisEngine</span><span class="p">(</span><span class="n">AnalysisEngine</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Engine for analyzing soot aggregates in TEM/SEM images.</span>
+
+<span class="sd">    Performs watershed segmentation to split aggregates into primary particles,</span>
+<span class="sd">    then calculates geometric metrics and fractal dimension (Df).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;soot&#39;</span>
+
+<div class="viewcode-block" id="SootAnalysisEngine.__init__">
+<a class="viewcode-back" href="../../../api.html#a_em.SootAnalysisEngine.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dist_thresh_ratio</span><span class="o">=</span><span class="mf">0.4</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dist_thresh_ratio</span> <span class="o">=</span> <span class="n">dist_thresh_ratio</span></div>
+
+
+<div class="viewcode-block" id="SootAnalysisEngine.supports">
+<a class="viewcode-back" href="../../../api.html#a_em.SootAnalysisEngine.supports">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">supports</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">particle_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">particle_type</span> <span class="o">==</span> <span class="s1">&#39;soot&#39;</span></div>
+
+
+<div class="viewcode-block" id="SootAnalysisEngine.analyze">
+<a class="viewcode-back" href="../../../api.html#a_em.SootAnalysisEngine.analyze">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">analyze</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signal_roi</span><span class="p">,</span> <span class="n">mask_roi</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Complete soot analysis pipeline.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            signal_roi: HyperSpy Signal2D or numpy array of the particle ROI.</span>
+<span class="sd">            mask_roi: Binary mask (uint8) of the particle.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with keys: df, rg, r0, feret_dia, convexity,</span>
+<span class="sd">            roundness, num_particles, primary_particles.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Extract numpy data for OpenCV operations</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">signal_roi</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">signal_roi</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">signal_roi</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">):</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">signal_roi</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">signal_roi</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">img</span><span class="o">.</span><span class="n">dtype</span> <span class="o">!=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">:</span>
+            <span class="c1"># Normalize to uint8 for OpenCV</span>
+            <span class="n">dmin</span><span class="p">,</span> <span class="n">dmax</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">img</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">dmax</span> <span class="o">==</span> <span class="n">dmin</span><span class="p">:</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">img</span> <span class="o">=</span> <span class="p">((</span><span class="n">img</span> <span class="o">-</span> <span class="n">dmin</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">dmax</span> <span class="o">-</span> <span class="n">dmin</span><span class="p">)</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+        <span class="c1"># Ensure mask is uint8 for OpenCV</span>
+        <span class="n">mask_roi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">mask_roi</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+
+        <span class="c1"># 1. Watershed segmentation of primary particles</span>
+        <span class="n">markers</span><span class="p">,</span> <span class="n">dist_transform</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_split_particles</span><span class="p">(</span><span class="n">mask_roi</span><span class="p">)</span>
+        <span class="n">particles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_extract_particle_stats</span><span class="p">(</span><span class="n">markers</span><span class="p">,</span> <span class="n">dist_transform</span><span class="p">)</span>
+
+        <span class="c1"># 2. Calculate all metrics</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_calculate_all_metrics</span><span class="p">(</span><span class="n">particles</span><span class="p">,</span> <span class="n">mask_roi</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">metrics</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+        <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;primary_particles&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">particles</span>
+        <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;markers&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">markers</span>
+        <span class="n">metrics</span><span class="p">[</span><span class="s1">&#39;dist_transform&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dist_transform</span>
+
+        <span class="k">return</span> <span class="n">metrics</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_split_particles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Watershed segmentation to split aggregate into primary particles.&quot;&quot;&quot;</span>
+        <span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">)</span>
+        <span class="n">sure_bg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">dilate</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">kernel</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+        <span class="n">dist_transform</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">distanceTransform</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">DIST_L2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">sure_fg</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">threshold</span><span class="p">(</span>
+            <span class="n">dist_transform</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dist_thresh_ratio</span> <span class="o">*</span> <span class="n">dist_transform</span><span class="o">.</span><span class="n">max</span><span class="p">(),</span>
+            <span class="mi">255</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="p">)</span>
+        <span class="n">sure_fg</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="n">sure_fg</span><span class="p">)</span>
+        <span class="n">unknown</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">sure_bg</span><span class="p">,</span> <span class="n">sure_fg</span><span class="p">)</span>
+        <span class="n">_</span><span class="p">,</span> <span class="n">markers</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">connectedComponents</span><span class="p">(</span><span class="n">sure_fg</span><span class="p">)</span>
+        <span class="n">markers</span> <span class="o">=</span> <span class="n">markers</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="n">markers</span><span class="p">[</span><span class="n">unknown</span> <span class="o">==</span> <span class="mi">255</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">img_color</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">cvtColor</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">COLOR_GRAY2BGR</span><span class="p">)</span>
+        <span class="n">markers</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">watershed</span><span class="p">(</span><span class="n">img_color</span><span class="p">,</span> <span class="n">markers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">markers</span><span class="p">,</span> <span class="n">dist_transform</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_extract_particle_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">markers</span><span class="p">,</span> <span class="n">dist_transform</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract center and radius for each primary particle.&quot;&quot;&quot;</span>
+        <span class="n">particles</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">markers</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">particle_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">(</span><span class="n">markers</span> <span class="o">==</span> <span class="n">label</span><span class="p">)</span>
+            <span class="n">M</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">moments</span><span class="p">(</span><span class="n">particle_mask</span><span class="p">)</span>  <span class="c1"># noqa: N806</span>
+            <span class="k">if</span> <span class="n">M</span><span class="p">[</span><span class="s2">&quot;m00&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">cX</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">M</span><span class="p">[</span><span class="s2">&quot;m10&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">M</span><span class="p">[</span><span class="s2">&quot;m00&quot;</span><span class="p">])</span>  <span class="c1"># noqa: N806</span>
+            <span class="n">cY</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">M</span><span class="p">[</span><span class="s2">&quot;m01&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">M</span><span class="p">[</span><span class="s2">&quot;m00&quot;</span><span class="p">])</span>  <span class="c1"># noqa: N806</span>
+            <span class="n">max_dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">dist_transform</span><span class="p">[</span><span class="n">markers</span> <span class="o">==</span> <span class="n">label</span><span class="p">])</span>
+            <span class="n">particles</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+                <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">label</span><span class="p">),</span>
+                <span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">cX</span><span class="p">,</span> <span class="n">cY</span><span class="p">),</span>
+                <span class="s2">&quot;radius&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">max_dist</span><span class="p">),</span>
+                <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">M</span><span class="p">[</span><span class="s2">&quot;m00&quot;</span><span class="p">])</span>
+            <span class="p">})</span>
+        <span class="k">return</span> <span class="n">particles</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_calculate_all_metrics</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">particles</span><span class="p">,</span> <span class="n">mask</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate geometric metrics and fractal dimension.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">particles</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span>
+
+        <span class="c1"># Weighted center of aggregate</span>
+        <span class="n">avg_r</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">([</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;radius&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">particles</span><span class="p">])</span>
+        <span class="n">sum_m</span><span class="p">,</span> <span class="n">sum_x</span><span class="p">,</span> <span class="n">sum_y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">particles</span><span class="p">:</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;radius&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">avg_r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span>
+            <span class="n">sum_x</span> <span class="o">+=</span> <span class="n">m</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;center&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">sum_y</span> <span class="o">+=</span> <span class="n">m</span> <span class="o">*</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;center&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">sum_m</span> <span class="o">+=</span> <span class="n">m</span>
+        <span class="n">center</span> <span class="o">=</span> <span class="p">(</span><span class="n">sum_x</span> <span class="o">/</span> <span class="n">sum_m</span><span class="p">,</span> <span class="n">sum_y</span> <span class="o">/</span> <span class="n">sum_m</span><span class="p">)</span>
+
+        <span class="c1"># Distance from center for each particle</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">particles</span><span class="p">:</span>
+            <span class="n">p</span><span class="p">[</span><span class="s1">&#39;ri&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+                <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;center&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">center</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span>
+                <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;center&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">center</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span>
+            <span class="p">)</span>
+        <span class="n">particles</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="s1">&#39;ri&#39;</span><span class="p">])</span>
+
+        <span class="c1"># Cumulative Rg and R0</span>
+        <span class="n">sum_r3_ri2</span><span class="p">,</span> <span class="n">sum_r3</span><span class="p">,</span> <span class="n">sum_r</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">rg_list</span><span class="p">,</span> <span class="n">r0_list</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">particles</span><span class="p">):</span>
+            <span class="n">m</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;radius&#39;</span><span class="p">]</span> <span class="o">/</span> <span class="n">avg_r</span><span class="p">)</span> <span class="o">**</span> <span class="mi">3</span>
+            <span class="n">sum_r3_ri2</span> <span class="o">+=</span> <span class="n">m</span> <span class="o">*</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s1">&#39;ri&#39;</span><span class="p">]</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
+            <span class="n">sum_r3</span> <span class="o">+=</span> <span class="n">m</span>
+            <span class="n">sum_r</span> <span class="o">+=</span> <span class="n">p</span><span class="p">[</span><span class="s1">&#39;radius&#39;</span><span class="p">]</span>
+            <span class="n">rg_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">sum_r3_ri2</span> <span class="o">/</span> <span class="n">sum_r3</span><span class="p">))</span>
+            <span class="n">r0_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">sum_r</span> <span class="o">/</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
+        <span class="c1"># Fractal dimension via log-log regression</span>
+        <span class="n">log_n</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">particles</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="n">log_rg_r0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">rg_list</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">r0_list</span><span class="p">))</span>
+        <span class="n">start_idx</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">particles</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.1</span><span class="p">))</span>
+        <span class="n">df_val</span> <span class="o">=</span> <span class="mf">0.0</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">log_n</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">start_idx</span> <span class="o">+</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">slope</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">linregress</span><span class="p">(</span><span class="n">log_rg_r0</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:],</span> <span class="n">log_n</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:])</span>
+            <span class="n">df_val</span> <span class="o">=</span> <span class="n">slope</span>
+
+        <span class="c1"># Morphology</span>
+        <span class="n">contours</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">findContours</span><span class="p">(</span><span class="n">mask</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">RETR_EXTERNAL</span><span class="p">,</span> <span class="n">cv2</span><span class="o">.</span><span class="n">CHAIN_APPROX_SIMPLE</span><span class="p">)</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">contours</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">)</span>
+        <span class="n">hull</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">convexHull</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+        <span class="n">area</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+        <span class="n">hull_area</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">contourArea</span><span class="p">(</span><span class="n">hull</span><span class="p">)</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="n">cv2</span><span class="o">.</span><span class="n">minAreaRect</span><span class="p">(</span><span class="n">cnt</span><span class="p">)</span>
+        <span class="n">feret_dia</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">rect</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">convexity</span> <span class="o">=</span> <span class="n">area</span> <span class="o">/</span> <span class="n">hull_area</span> <span class="k">if</span> <span class="n">hull_area</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="n">roundness</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="n">area</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="p">(</span><span class="n">feret_dia</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span> <span class="k">if</span> <span class="n">feret_dia</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;center&quot;</span><span class="p">:</span> <span class="n">center</span><span class="p">,</span>
+            <span class="s2">&quot;df&quot;</span><span class="p">:</span> <span class="n">df_val</span><span class="p">,</span>
+            <span class="s2">&quot;rg&quot;</span><span class="p">:</span> <span class="n">rg_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s2">&quot;r0&quot;</span><span class="p">:</span> <span class="n">r0_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span>
+            <span class="s2">&quot;feret_dia&quot;</span><span class="p">:</span> <span class="n">feret_dia</span><span class="p">,</span>
+            <span class="s2">&quot;convexity&quot;</span><span class="p">:</span> <span class="n">convexity</span><span class="p">,</span>
+            <span class="s2">&quot;roundness&quot;</span><span class="p">:</span> <span class="n">roundness</span><span class="p">,</span>
+            <span class="s2">&quot;num_particles&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">particles</span><span class="p">),</span>
+            <span class="s2">&quot;log_data&quot;</span><span class="p">:</span> <span class="p">(</span><span class="n">log_rg_r0</span><span class="p">,</span> <span class="n">log_n</span><span class="p">)</span>
+        <span class="p">}</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, A-EM Team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
